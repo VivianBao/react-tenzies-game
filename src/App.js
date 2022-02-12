@@ -20,6 +20,10 @@ export default function App() {
     return newDiceArray
   }
 
+  function setNewGame() {
+    setDice(setAllNewDice())
+  }
+
   const diceElements = dice.map(die => <Die value={die.value} />)
 
   return (
@@ -29,7 +33,7 @@ export default function App() {
       <div className="dice-container">
         {diceElements}
       </div>
-      <button>Roll</button>
+      <button onClick={setNewGame}>Roll</button>
     </main>
   );
 }
