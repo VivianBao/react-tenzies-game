@@ -39,6 +39,7 @@ main{
   justify-content: center;
   align-items: center;
   box-shadow: 0 2px 1.5px lightgray;
+  cursor: pointer;
 }
 
 button{

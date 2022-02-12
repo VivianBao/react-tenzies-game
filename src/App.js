@@ -20,7 +20,19 @@ export default function App() {
     return newDiceArray
   }
 
-  const diceElements = dice.map(die => <Die value={die.value} />)
+  function setNewGame() {
+    setDice(setAllNewDice())
+  }
+
+  function holdDie(id) {
+    setDice(prevDice => {
+      return prevDice.map(oldDie => {
+        return oldDie.id === id ? {...oldDie, isHeld: !oldDie.isHeld} : {...oldDie}
+      })
+    })
+  }
+
+  const diceElements = dice.map(die => <Die key={die.id} value={die.value} isHeld={die.isHeld} holdDie={() => holdDie(die.id)}/>)
 
   return (
     <main>
@@ -29,7 +41,7 @@ export default function App() {
       <div className="dice-container">
         {diceElements}
       </div>
-      <button>Roll</button>
+      <button onClick={setNewGame}>Roll</button>
     </main>
   );
 }
