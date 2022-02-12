@@ -1,25 +1,35 @@
-import logo from './logo.svg';
+import React from "react"
+import Die from "./components/Die"
+import { nanoid } from 'nanoid'
 import './App.css';
 
-function App() {
+export default function App() {
+  const [dice, setDice] = React.useState(setAllNewDice())
+
+  function setAllNewDice() {
+    const newDiceArray = []
+    for (let i=0;i < 10; i++){
+      newDiceArray.push(
+        {
+          value: Math.ceil(Math.random() * 6),
+          isHeld: false,
+          id: nanoid()
+        }
+      )
+    }
+    return newDiceArray
+  }
+
+  const diceElements = dice.map(die => <Die value={die.value} />)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main>
+      <h1 className="title">Tenzies</h1>
+      <p className="instruction">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
+      <div className="dice-container">
+        {diceElements}
+      </div>
+      <button>Roll</button>
+    </main>
   );
 }
-
-export default App;
