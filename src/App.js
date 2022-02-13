@@ -2,6 +2,7 @@ import React from "react"
 import Die from "./components/Die"
 import { nanoid } from 'nanoid'
 import Confetti from 'react-confetti'
+import { useStopwatch } from 'react-timer-hook'
 import './App.css';
 
 export default function App() {
@@ -17,6 +18,27 @@ export default function App() {
         }
       }
   }, [dice])
+
+  function MyStopwatch() {
+    const {
+      seconds,
+      minutes,
+      hours,
+      days,
+      isRunning,
+      start,
+      pause,
+      reset,
+    } = useStopwatch({ autoStart: true });
+
+
+    return (
+      <div className="timer">
+        <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
+      </div>
+    );
+  }
+
 
   function setAllNewDice() {
     const newDiceArray = []
@@ -66,6 +88,7 @@ export default function App() {
       {tenzies && <Confetti />}
       <h1 className="title">Tenzies</h1>
       <p className="instruction">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
+      {MyStopwatch()}
       <div className="dice-container">
         {diceElements}
       </div>
