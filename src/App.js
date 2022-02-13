@@ -8,6 +8,21 @@ import './App.css';
 export default function App() {
   const [dice, setDice] = React.useState(setAllNewDice())
   const [tenzies, setTenzies] = React.useState(false)
+  const {
+      seconds,
+      minutes,
+      hours,
+      days,
+      isRunning,
+      start,
+      pause,
+      reset,
+    } = useStopwatch({ autoStart: true });
+  const [stopWatch, setStopWatch] = React.useState([seconds, minutes, hours])
+
+  React.useEffect(() => {
+    setStopWatch([seconds, minutes])
+  }, [seconds, minutes])
 
   React.useEffect(() => {
       const firstDie = dice[0]
@@ -19,25 +34,25 @@ export default function App() {
       }
   }, [dice])
 
-  function MyStopwatch() {
-    const {
-      seconds,
-      minutes,
-      hours,
-      days,
-      isRunning,
-      start,
-      pause,
-      reset,
-    } = useStopwatch({ autoStart: true });
+  // function MyStopwatch() {
+  //   const {
+  //     seconds,
+  //     minutes,
+  //     hours,
+  //     days,
+  //     isRunning,
+  //     start,
+  //     pause,
+  //     reset,
+  //   } = useStopwatch({ autoStart: true });
 
 
-    return (
-      <div className="timer">
-        <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
-      </div>
-    );
-  }
+  //   return (
+  //     <div className="timer">
+  //       <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
+  //     </div>
+  //   );
+  // }
 
 
   function setAllNewDice() {
@@ -88,7 +103,9 @@ export default function App() {
       {tenzies && <Confetti />}
       <h1 className="title">Tenzies</h1>
       <p className="instruction">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
-      {MyStopwatch()}
+      <div className="timer">
+        <span>{stopWatch[1]}</span><span>:</span><span>{stopWatch[0]}</span>
+      </div>
       <div className="dice-container">
         {diceElements}
       </div>
