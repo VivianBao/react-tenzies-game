@@ -1,5 +1,6 @@
 import React from "react"
 import Die from "./components/Die"
+import BestRecord from "./components/BestRecord"
 import { nanoid } from 'nanoid'
 import Confetti from 'react-confetti'
 import { useStopwatch } from 'react-timer-hook'
@@ -11,15 +12,11 @@ export default function App() {
   const {
       seconds,
       minutes,
-      hours,
-      days,
-      isRunning,
-      start,
       pause,
       reset,
     } = useStopwatch({ autoStart: true });
   const [stopWatch, setStopWatch] = React.useState([seconds, minutes])
-  const [time, setTime] = React.useState({seconds: 0, minutes: 0})
+  const [bestTime, setBestTime] = React.useState({})
 
   React.useEffect(() => {
     setStopWatch([seconds, minutes])
@@ -31,6 +28,17 @@ export default function App() {
         if(dice.every(die => die.value === firstDie.value)){
           setTenzies(true)
           pause()
+          if (Object.keys(bestTime).length === 0) {
+            setBestTime({
+              seconds: seconds,
+              minutes: minutes
+            })
+          } else if (bestTime.minutes >= minutes && bestTime.seconds > seconds) {
+            setBestTime({
+              seconds: seconds,
+              minutes: minutes
+            })
+          }
           console.log("You win!")
         }
       }
@@ -66,11 +74,6 @@ export default function App() {
     } else {
       setDice(setAllNewDice())
       setTenzies(false)
-      pause()
-      setTime({
-        seconds: seconds,
-        minutes: minutes
-      })
       reset()
     }
   }
@@ -92,6 +95,9 @@ export default function App() {
       <p className="instruction">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
       <div className="timer">
         <span>{stopWatch[1]}</span><span className="timer-text">min</span><span>{stopWatch[0]}</span><span className="timer-text">sec</span>
+      </div>
+      <div className="best-record">
+        <BestRecord bestRecord={bestTime}/>
       </div>
       <div className="dice-container">
         {diceElements}
