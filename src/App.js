@@ -5,6 +5,17 @@ import './App.css';
 
 export default function App() {
   const [dice, setDice] = React.useState(setAllNewDice())
+  const [tenzies, setTenzies] = React.useState(false)
+
+  React.useEffect(() => {
+      const firstDie = dice[0]
+      if(dice.every(die => die.isHeld === true)){
+        if(dice.every(die => die.value === firstDie.value)){
+          setTenzies(true)
+          console.log("You win!")
+        }
+      }
+  }, [dice])
 
   function setAllNewDice() {
     const newDiceArray = []
@@ -20,8 +31,23 @@ export default function App() {
     return newDiceArray
   }
 
-  function setNewGame() {
-    setDice(setAllNewDice())
+  function roll() {
+    if(!tenzies){
+      setDice(prevDice => {
+          return prevDice.map(prevDie => {
+            return prevDie.isHeld ?
+            {...prevDie}
+            : {
+              value: Math.ceil(Math.random() * 6),
+              isHeld: false,
+              id: nanoid()
+            }
+          })
+      })
+    } else {
+      setDice(setAllNewDice())
+      setTenzies(false)
+    }
   }
 
   function holdDie(id) {
@@ -41,7 +67,7 @@ export default function App() {
       <div className="dice-container">
         {diceElements}
       </div>
-      <button onClick={setNewGame}>Roll</button>
+      <button onClick={roll}>{tenzies ? "Start New Game" : "Roll"}</button>
     </main>
   );
 }
