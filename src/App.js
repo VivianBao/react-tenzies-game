@@ -21,7 +21,17 @@ export default function App() {
   }
 
   function setNewGame() {
-    setDice(setAllNewDice())
+    setDice(prevDice => {
+        return prevDice.map(prevDie => {
+          return prevDie.isHeld ?
+          {...prevDie}
+          : {
+            value: Math.ceil(Math.random() * 6),
+            isHeld: false,
+            id: nanoid()
+          }
+        })
+    })
   }
 
   function holdDie(id) {
