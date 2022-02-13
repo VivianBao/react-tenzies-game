@@ -104,7 +104,7 @@ export default function App() {
       <h1 className="title">Tenzies</h1>
       <p className="instruction">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
       <div className="timer">
-        <span>{stopWatch[1]}</span><span>:</span><span>{stopWatch[0]}</span>
+        <span>{stopWatch[1]}</span><span className="timer-text">min</span><span>{stopWatch[0]}</span><span className="timer-text">sec</span>
       </div>
       <div className="dice-container">
         {diceElements}
