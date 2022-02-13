@@ -18,7 +18,8 @@ export default function App() {
       pause,
       reset,
     } = useStopwatch({ autoStart: true });
-  const [stopWatch, setStopWatch] = React.useState([seconds, minutes, hours])
+  const [stopWatch, setStopWatch] = React.useState([seconds, minutes])
+  const [time, setTime] = React.useState({seconds: 0, minutes: 0})
 
   React.useEffect(() => {
     setStopWatch([seconds, minutes])
@@ -29,31 +30,11 @@ export default function App() {
       if(dice.every(die => die.isHeld === true)){
         if(dice.every(die => die.value === firstDie.value)){
           setTenzies(true)
+          pause()
           console.log("You win!")
         }
       }
   }, [dice])
-
-  // function MyStopwatch() {
-  //   const {
-  //     seconds,
-  //     minutes,
-  //     hours,
-  //     days,
-  //     isRunning,
-  //     start,
-  //     pause,
-  //     reset,
-  //   } = useStopwatch({ autoStart: true });
-
-
-  //   return (
-  //     <div className="timer">
-  //       <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
-  //     </div>
-  //   );
-  // }
-
 
   function setAllNewDice() {
     const newDiceArray = []
@@ -85,6 +66,12 @@ export default function App() {
     } else {
       setDice(setAllNewDice())
       setTenzies(false)
+      pause()
+      setTime({
+        seconds: seconds,
+        minutes: minutes
+      })
+      reset()
     }
   }
 
