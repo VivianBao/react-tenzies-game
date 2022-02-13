@@ -21,7 +21,7 @@ main{
   max-width: 55%;
   text-align: center;
   margin-top: 5px;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 }
 
 .dice-container{
@@ -51,4 +51,24 @@ button{
   height: 45px;
   font-size: 1.2rem;
   margin-top: 30px;
+}
+
+.timer{
+  font-size: 16px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  color: #5035FF;
+}
+
+.timer > span {
+  width: 25px;
+  height: 25px;
+  text-align: center;
+}
+
+.timer > .timer-text {
+  font-size: 12px;
+  text-align: center;
 }

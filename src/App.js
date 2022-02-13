@@ -2,17 +2,35 @@ import React from "react"
 import Die from "./components/Die"
 import { nanoid } from 'nanoid'
 import Confetti from 'react-confetti'
+import { useStopwatch } from 'react-timer-hook'
 import './App.css';
 
 export default function App() {
   const [dice, setDice] = React.useState(setAllNewDice())
   const [tenzies, setTenzies] = React.useState(false)
+  const {
+      seconds,
+      minutes,
+      hours,
+      days,
+      isRunning,
+      start,
+      pause,
+      reset,
+    } = useStopwatch({ autoStart: true });
+  const [stopWatch, setStopWatch] = React.useState([seconds, minutes])
+  const [time, setTime] = React.useState({seconds: 0, minutes: 0})
+
+  React.useEffect(() => {
+    setStopWatch([seconds, minutes])
+  }, [seconds, minutes])
 
   React.useEffect(() => {
       const firstDie = dice[0]
       if(dice.every(die => die.isHeld === true)){
         if(dice.every(die => die.value === firstDie.value)){
           setTenzies(true)
+          pause()
           console.log("You win!")
         }
       }
@@ -48,6 +66,12 @@ export default function App() {
     } else {
       setDice(setAllNewDice())
       setTenzies(false)
+      pause()
+      setTime({
+        seconds: seconds,
+        minutes: minutes
+      })
+      reset()
     }
   }
 
@@ -66,6 +90,9 @@ export default function App() {
       {tenzies && <Confetti />}
       <h1 className="title">Tenzies</h1>
       <p className="instruction">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
+      <div className="timer">
+        <span>{stopWatch[1]}</span><span className="timer-text">min</span><span>{stopWatch[0]}</span><span className="timer-text">sec</span>
+      </div>
       <div className="dice-container">
         {diceElements}
       </div>
