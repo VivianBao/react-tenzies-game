@@ -5,6 +5,17 @@ import './App.css';
 
 export default function App() {
   const [dice, setDice] = React.useState(setAllNewDice())
+  const [tenzies, setTenzies] = React.useState(false)
+
+  React.useEffect(() => {
+      const firstDie = dice[0]
+      if(dice.every(die => die.isHeld === true)){
+        if(dice.every(die => die.value === firstDie.value)){
+          setTenzies(true)
+          console.log("You win!")
+        }
+      }
+  }, [dice])
 
   function setAllNewDice() {
     const newDiceArray = []
