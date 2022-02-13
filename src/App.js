@@ -31,18 +31,23 @@ export default function App() {
     return newDiceArray
   }
 
-  function setNewGame() {
-    setDice(prevDice => {
-        return prevDice.map(prevDie => {
-          return prevDie.isHeld ?
-          {...prevDie}
-          : {
-            value: Math.ceil(Math.random() * 6),
-            isHeld: false,
-            id: nanoid()
-          }
-        })
-    })
+  function roll() {
+    if(!tenzies){
+      setDice(prevDice => {
+          return prevDice.map(prevDie => {
+            return prevDie.isHeld ?
+            {...prevDie}
+            : {
+              value: Math.ceil(Math.random() * 6),
+              isHeld: false,
+              id: nanoid()
+            }
+          })
+      })
+    } else {
+      setDice(setAllNewDice())
+      setTenzies(false)
+    }
   }
 
   function holdDie(id) {
@@ -62,7 +67,7 @@ export default function App() {
       <div className="dice-container">
         {diceElements}
       </div>
-      <button onClick={setNewGame}>Roll</button>
+      <button onClick={roll}>{tenzies ? "Start New Game" : "Roll"}</button>
     </main>
   );
 }
