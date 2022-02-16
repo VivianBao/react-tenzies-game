@@ -1,5 +1,7 @@
 # Getting Started with Create React App
 
+Tenzies game built using React! Now featuring timer and best record for you to challenge yourself!
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
